@@ -1,23 +1,32 @@
-import unittest
-from PIL import Image
 import random
+import sys
+import unittest
+
+from PIL import Image
+
 
 NB_SLACK_COLORS = 8
 BLACK = "#000000"
-WHITE = "#ffffff" 
+WHITE = "#ffffff"
 
+# Order
+# Column BG, Menu BG Hover, Active Item, Active Item Text, Hover Item, Text Color, Active Presence, Mention Badge
+# Column BG <> Text Color <> Hover Item
+# Column BG <> Active Item
+# Column BG <> Active Presence
+# Column BG <> Mention Badge
+# Active Item <> Active Item Text
 
-def show():
-    im = Image.open("test.png")
+def generate_slack_theme(filepath):
+    im = Image.open(filepath)
     pixels = im.getcolors()
     rgba_colors = [ color for count, color in pixels if valid_color(color) and count > 10 ]
     hex_colors = [ rgb2hex(r, g, b) for r, g, b, _ in rgba_colors ]
-    theme = get_theme(hex_colors, dark_mode=True)
+    theme = get_theme(hex_colors)
     print(theme_to_string(theme))
 
 def theme_to_string(theme):
     return ','.join(theme)
-
 
 def get_theme(hex, dark_mode=False):
     number_colors = len(hex)
@@ -41,19 +50,19 @@ def valid_color(color):
     r, g, b, a = color
     return  a > 0
 
-def gen_slack_theme(image):
-    return ["#3F0E40","#350d36","#1164A3","#FFFFFF","#350D36","#FFFFFF","#2BAC76","#CD2553"]
-
-class TestGenSlackTheme(unittest.TestCase):
-    
-    def test_gen_slack_theme(self):
-        image = "url.png"
-        result = gen_slack_theme(image)
-        self.assertEqual(len(result), 8)
-
 if __name__ == '__main__':
-    print("YO, IT'S THE BEGINNING")
-    show()
-    print("YO, IT'S THE END")
-    
-    unittest.main()
+    doc = """
+------------------------------------------------------------------
+
+This script generates a slack theme based on an image's colors.
+
+Run the following command:
+$ python3 gen_slack_theme.py <image-path>
+
+------------------------------------------------------------------
+    """
+    if len(sys.argv) < 2:
+        print(doc)
+    else:
+        filepath = sys.argv[1]
+        generate_slack_theme(filepath)
