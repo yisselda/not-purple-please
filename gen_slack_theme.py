@@ -17,11 +17,15 @@ WHITE = "#ffffff"
 # Column BG <> Mention Badge
 # Active Item <> Active Item Text
 
+# You have colors in RGB and RGBA
+
 def generate_slack_theme(filepath):
     im = Image.open(filepath)
-    pixels = im.getcolors()
-    rgba_colors = [ color for count, color in pixels if valid_color(color) and count > 10 ]
-    hex_colors = [ rgb2hex(r, g, b) for r, g, b, _ in rgba_colors ]
+    pixels = im.getcolors(99999999)
+    print(pixels)
+    rgba_colors = [ color for count, color in pixels if count > 10 and valid_color(color)]
+    rgb_colors = [ (c[0], c[1], c[2]) for c in rgba_colors]
+    hex_colors = [ rgb2hex(r, g, b) for r, g, b in rgb_colors ]
     theme = get_theme(hex_colors)
     print(theme_to_string(theme))
 
@@ -47,8 +51,10 @@ def rgb2hex(r, g, b):
     return '#{:02x}{:02x}{:02x}'.format(r, g, b)
 
 def valid_color(color):
-    r, g, b, a = color
-    return  a > 0
+    if len(color) == 4:
+        r, g, b, a = color
+        return  a > 0
+    return True
 
 if __name__ == '__main__':
     doc = """
