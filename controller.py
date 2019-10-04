@@ -1,11 +1,17 @@
-from flask import Flask, request
+import os
+
+from flask import Flask, request, send_from_directory
 from gen_slack_theme import generate_slack_theme
 
 app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    return "Hello, World!"
+    return "Try /default"
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico')
 
 @app.route("/default")
 def get_default():
