@@ -14,3 +14,14 @@ $ source venv/bin/activate
 $ export FLASK_APP=controller.py
 $ flask run
 ```
+
+### Production URL
+https://gen-slack-theme.herokuapp.com/
+
+### Endpoint to generate a Slack Theme from an image:
+```
+POST https://gen-slack-theme.herokuapp.com/create-theme
+Content-type: multipart/form-data
+```
+
+⚠️ allowed file formats: 'png', 'jpg', 'jpeg', 'gif'
