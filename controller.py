@@ -1,10 +1,12 @@
 import os
 from flask import Flask, request, send_from_directory
 from gen_slack_theme import generate_slack_theme
+from flask_cors import CORS
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/")
 def hello():
