@@ -22,12 +22,11 @@ WHITE = "#ffffff"
 def generate_slack_theme(filepath):
     im = Image.open(filepath)
     pixels = im.getcolors(99999999)
-    print(pixels)
     rgba_colors = [ color for count, color in pixels if count > 10 and valid_color(color)]
     rgb_colors = [ (c[0], c[1], c[2]) for c in rgba_colors]
     hex_colors = [ rgb2hex(r, g, b) for r, g, b in rgb_colors ]
     theme = get_theme(hex_colors)
-    print(theme_to_string(theme))
+    return theme_to_string(theme)
 
 def theme_to_string(theme):
     return ','.join(theme)

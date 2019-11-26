@@ -1,7 +1,8 @@
 import os
-
 from flask import Flask, request, send_from_directory
 from gen_slack_theme import generate_slack_theme
+
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
 
@@ -17,9 +18,20 @@ def favicon():
 def get_default():
     return "#3F0E40,#350d36,#1164A3,#FFFFFF,#350D36,#FFFFFF,#2BAC76,#CD2553"
 
-@app.route("/generate", methods=['POST'])
-def generate():
+@app.route("/create-theme", methods=['POST'])
+def create_theme():
+    if 'file' not in request.files:
+        return 'No file part'
+        
     file = request.files['file']
-    print(request.files)
-    return generate_slack_theme(file)
+    if file.filename == '':
+        return 'No selected file'
 
+    if file and allowed_file(file.filename):
+        theme = generate_slack_theme(file)
+        return theme
+    return "Shit happened"
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
