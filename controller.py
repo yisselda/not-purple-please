@@ -1,10 +1,12 @@
 import os
 from flask import Flask, request, send_from_directory
 from gen_slack_theme import generate_slack_theme
+from flask_cors import CORS, cross_origin
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/")
 def hello():
@@ -19,6 +21,7 @@ def get_default():
     return "#3F0E40,#350d36,#1164A3,#FFFFFF,#350D36,#FFFFFF,#2BAC76,#CD2553"
 
 @app.route("/create-theme", methods=['POST'])
+@cross_origin()
 def create_theme():
     if 'file' not in request.files:
         return 'No file part'
