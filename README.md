@@ -24,4 +24,7 @@ POST https://gen-slack-theme.herokuapp.com/create-theme
 Content-type: multipart/form-data
 ```
 
-⚠️ allowed file formats: 'png', 'jpg', 'jpeg', 'gif'
+⚠️ Allowed file formats are `'png', 'jpg', 'jpeg', 'gif'`
+
+### Interesting Reads📚
+- [The Science of Color Contrast](https://medium.muz.li/the-science-of-color-contrast-an-expert-designers-guide-33e84c41d156)
