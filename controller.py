@@ -7,6 +7,7 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
 CORS(app)
+CORS(app, resources={r"*": {"origins": ["https://slackable-themes.com, https://slackablethemes.com"]}})
 
 @app.route("/")
 def hello():
@@ -36,5 +37,4 @@ def create_theme():
     return "Shit happened"
 
 def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS

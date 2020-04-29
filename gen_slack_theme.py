@@ -5,27 +5,35 @@ import unittest
 from PIL import Image
 
 
-NB_SLACK_COLORS = 8
+NB_SLACK_COLORS = 10
 BLACK = "#000000"
 WHITE = "#ffffff"
 
 # Order
 # Column BG, Menu BG Hover, Active Item, Active Item Text, Hover Item, Text Color, Active Presence, Mention Badge
-# Column BG <> Text Color <> Hover Item
-# Column BG <> Active Item
+# Column BG <> Text Color
+# Column BG <> Hover Item
+# Text Color <> Hover Item
+# Column BG <> Active Item 
+# Active Item <> Active Item Text
 # Column BG <> Active Presence
 # Column BG <> Mention Badge
-# Active Item <> Active Item Text
 
 # You have colors in RGB and RGBA
 
 def generate_slack_theme(filepath):
     im = Image.open(filepath)
+
     pixels = im.getcolors(99999999)
-    rgba_colors = [ color for count, color in pixels if count > 10 and valid_color(color)]
-    rgb_colors = [ (c[0], c[1], c[2]) for c in rgba_colors]
-    hex_colors = [ rgb2hex(r, g, b) for r, g, b in rgb_colors ]
+
+    rgba_colors = ( color for count, color in pixels if count > 10 and is_not_transparent(color) )
+
+    rgb_colors = ( (c[0], c[1], c[2]) for c in rgba_colors)
+
+    hex_colors = ( rgb2hex(r, g, b) for r, g, b in rgb_colors )
+
     theme = get_theme(hex_colors)
+
     return theme_to_string(theme)
 
 def theme_to_string(theme):
@@ -49,9 +57,9 @@ def pick_wisely(collection_list, number_of_picks):
 def rgb2hex(r, g, b):
     return '#{:02x}{:02x}{:02x}'.format(r, g, b)
 
-def valid_color(color):
+def is_not_transparent(color):
     if len(color) == 4:
-        r, g, b, a = color
+        _, _, _, a = color
         return  a > 0
     return True
 
