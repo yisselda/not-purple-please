@@ -7,34 +7,33 @@ Pertinent images like logos work well.
 ### Install dependencies
 You will need pipenv, you can install it with Homebrew: `brew install pipenv`
 ```
-pipenv install
-```
-
-### Create a virtual environment
-```
-$ python3 -m venv venv
-```
-
-### Start your virtual environment
-```
-$ pipenv shell
+$ pipenv install
 ```
 
 ### Update dependencies
+```
+$ pipenv update
+```
 
-
-### Install dependencies
-
+### Add and install a dependency
+```
+$ pipenv install my-dependency
+```
 
 ### Start the server
 ```
 $ export FLASK_APP=controller.py
-$ flask run
+$ pipenv run flask run
 ```
 
 ### Run the tests
 ```
-$ python -m unittest
+$ pipenv run python -m unittest
+```
+
+### Start a virtual environment terminal
+```
+$ pipenv shell
 ```
 
 ### Production URL
