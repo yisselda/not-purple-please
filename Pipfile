@@ -23,7 +23,7 @@ Flask = "==1.1.1"
 Flask-Cors = "==3.0.8"
 Jinja2 = "==2.10.3"
 MarkupSafe = "==1.1.1"
-Pillow = "==6.2.0"
+Pillow = "*"
 Werkzeug = "==0.16.0"
 
 [requires]
