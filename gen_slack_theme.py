@@ -24,7 +24,7 @@ def generate_slack_theme(filepath, shuffle=True):
 
 
 def compute_colors_for_theme(filepath, shuffle=True):
-    im = Image.open(filepath)
+    im = Image.open(filepath).convert("RGB")
     pixels = im.getcolors(99999999)
 
     rgb_colors = retrieve_elligible_colors(pixels)
