@@ -1,18 +1,39 @@
 # Slack Theme Generator
-Generate a slack theme from an image.
+Generates a slack theme from an image.
 Pertinent images like logos work well.
 
 [Preview the generated themes from the SlackableThemes project](https://github.com/yisselda/SlackableThemes)
 
-### Start your virtual environment
+### Install dependencies
+You will need pipenv, you can install it with Homebrew: `brew install pipenv`
 ```
-$ source venv/bin/activate
+$ pipenv install
+```
+
+### Update dependencies
+```
+$ pipenv update
+```
+
+### Add and install a dependency
+```
+$ pipenv install my-dependency
 ```
 
 ### Start the server
 ```
 $ export FLASK_APP=controller.py
-$ flask run
+$ pipenv run flask run
+```
+
+### Run the tests
+```
+$ pipenv run python -m unittest
+```
+
+### Start a virtual environment terminal
+```
+$ pipenv shell
 ```
 
 ### Production URL
