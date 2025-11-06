@@ -56,9 +56,8 @@ Runs linting, unit tests, dependency audit, and produces the same artifact gener
 ### Deploy to Railway (staging)
 - Create/identify the staging environment and service in Railway, then generate an environment-scoped token.
 - In GitHub, add a **staging** environment with secrets:
-  - `RAILWAY_STAGING_TOKEN`
+  - `RAILWAY_STAGING_TOKEN` (also available to the CLI as `RAILWAY_TOKEN`)
   - `RAILWAY_STAGING_SERVICE_ID`
-  - `RAILWAY_STAGING_PROJECT_ID`
   - `RAILWAY_STAGING_ENVIRONMENT` (for example `staging`)
 - Pushes to `develop` run the CI workflow; if all jobs succeed, the final stage deploys the packaged build to Railway via `railway up`.
 - Either disable Railway autodeploy for the staging service or enable *Wait for CI* so deploys only occur after GitHub checks pass.
