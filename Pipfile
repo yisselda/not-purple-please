@@ -10,9 +10,10 @@ black = "*"
 pip-audit = "*"
 
 [scripts]
-lint = "flake8 app controller.py gen_slack_theme.py test_theme_service.py"
-format = "bash -lc 'isort --profile black app controller.py gen_slack_theme.py test_theme_service.py app/domain/slack_theme && black app controller.py gen_slack_theme.py test_theme_service.py app/domain/slack_theme'"
-check-format = "bash -lc 'isort --profile black --check-only app controller.py gen_slack_theme.py test_theme_service.py app/domain/slack_theme && black --check app controller.py gen_slack_theme.py test_theme_service.py app/domain/slack_theme'"
+lint = "flake8 app controller.py gen_slack_theme.py tests"
+format = "bash -lc 'isort --profile black app controller.py gen_slack_theme.py tests app/domain/slack_theme && black app controller.py gen_slack_theme.py tests app/domain/slack_theme'"
+check-format = "bash -lc 'isort --profile black --check-only app controller.py gen_slack_theme.py tests app/domain/slack_theme && black --check app controller.py gen_slack_theme.py tests app/domain/slack_theme'"
+ci = "bash scripts/ci.sh"
 
 [packages]
 astroid = "==2.15.8"

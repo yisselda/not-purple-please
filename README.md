@@ -47,6 +47,12 @@ The second command uses the sample wiki logo in `static/wiki-logo.png` to exerci
 $ pipenv run python -m unittest
 ```
 
+### Run the pipeline locally
+```
+$ pipenv run ci
+```
+Runs linting, unit tests, dependency audit, and produces the same artifact generated in CI (`build/not-purple-please.tar.gz`).
+
 ### Lint and format
 ```
 $ pipenv run lint
