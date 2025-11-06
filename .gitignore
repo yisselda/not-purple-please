@@ -1,0 +1,20 @@
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Tooling artifacts
+.pytest_cache/
+.coverage
+.coverage.*
+
+# IDE settings
+.vscode/
+.idea/
+
+# macOS metadata
+.DS_Store

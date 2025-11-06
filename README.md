@@ -6,6 +6,11 @@ Pertinent images like logos work well.
 
 ### Install dependencies
 You will need pipenv, you can install it with Homebrew: `brew install pipenv`
+On macOS, install the OpenSSL-linked Python before creating the virtualenv:
+```
+$ brew install python@3.12
+$ pipenv --python /opt/homebrew/bin/python3.12
+```
 ```
 $ pipenv install
 ```
@@ -30,6 +35,12 @@ $ pipenv run flask run
 ```
 $ pipenv run python -m unittest
 ```
+
+### Security audit
+```
+$ pipenv run pip-audit
+```
+`pipenv check` is deprecated; use `pip-audit` instead to scan the current environment and resolve any reported issues (for example by upgrading `pip` when prompted).
 
 ### Start a virtual environment terminal
 ```
