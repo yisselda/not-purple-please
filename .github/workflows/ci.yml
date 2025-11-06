@@ -173,16 +173,6 @@ jobs:
       - name: Install Railway CLI
         run: sudo npm install -g @railway/cli
 
-      - name: Link Railway project
-        working-directory: deploy_artifact
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_STAGING_TOKEN }}
-          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_STAGING_PROJECT_ID }}
-          RAILWAY_ENVIRONMENT: ${{ secrets.RAILWAY_STAGING_ENVIRONMENT }}
-          RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_STAGING_SERVICE_ID }}
-        run: |
-          railway link --project "$RAILWAY_PROJECT_ID" --environment "$RAILWAY_ENVIRONMENT" --service "$RAILWAY_SERVICE_ID"
-
       - name: Deploy to Railway staging
         working-directory: deploy_artifact
         env:
@@ -190,4 +180,4 @@ jobs:
           RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_STAGING_PROJECT_ID }}
           RAILWAY_ENVIRONMENT: ${{ secrets.RAILWAY_STAGING_ENVIRONMENT }}
           RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_STAGING_SERVICE_ID }}
-        run: railway up --service "$RAILWAY_SERVICE_ID" --environment "$RAILWAY_ENVIRONMENT" --ci
+        run: railway up --project "$RAILWAY_PROJECT_ID" --service "$RAILWAY_SERVICE_ID" --environment "$RAILWAY_ENVIRONMENT" --ci
