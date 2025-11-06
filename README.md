@@ -36,6 +36,13 @@ $ pipenv run flask run
 $ pipenv run python -m unittest
 ```
 
+### Lint and format
+```
+$ pipenv run lint
+$ pipenv run format
+```
+`pipenv run format` runs `isort --profile black` followed by `black` to keep imports and formatting consistent.
+
 ### Security audit
 ```
 $ pipenv run pip-audit

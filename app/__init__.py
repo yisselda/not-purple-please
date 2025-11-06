@@ -1,9 +1,10 @@
-import os
 from flask import Flask
+
 from .config import Config
 from .logging import configure_logging
 from .routes import register_blueprints
 from .services import init_app as init_services
+
 
 def create_app() -> Flask:
     app = Flask(__name__)

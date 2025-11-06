@@ -1,6 +1,6 @@
 import random
 import sys
-import unittest
+
 from PIL import Image
 
 NB_SLACK_COLORS = 10
@@ -8,7 +8,8 @@ BLACK = "#000000"
 WHITE = "#ffffff"
 
 # Order
-# Column BG, Menu BG Hover, Active Item, Active Item Text, Hover Item, Text Color, Active Presence, Mention Badge
+# Column BG, Menu BG Hover, Active Item, Active Item Text,
+# Hover Item, Text Color, Active Presence, Mention Badge
 # Column BG <> Text Color
 # Column BG <> Hover Item
 # Text Color <> Hover Item
@@ -42,7 +43,8 @@ def compute_colors_for_theme(filepath, shuffle=True):
 
 
 def theme_to_string(theme):
-    return ','.join(theme)
+    return ",".join(theme)
+
 
 # We assume we are getting either RGB or RGBA
 
@@ -55,6 +57,7 @@ def to_rgb(color):
         r, g, b, _ = color
         return (r, g, b)
 
+
 # Retrieve the pertinent colors
 # When there are less than a pertinent_colors_nb
 # of a color we don't want to include it in our theme
@@ -62,8 +65,10 @@ def to_rgb(color):
 
 def retrieve_elligible_colors(pixels_count_color, pertinent_colors_nb=10):
     return [
-        to_rgb(color) for count, color in pixels_count_color
-        if count > pertinent_colors_nb and not is_clear(color)]
+        to_rgb(color)
+        for count, color in pixels_count_color
+        if count > pertinent_colors_nb and not is_clear(color)
+    ]
 
 
 def complete_colors(colors, dark_mode=False):
@@ -85,7 +90,8 @@ def get_theme(colors, number_of_picks, shuffle=False):
 
 
 def rgb2hex(r, g, b):
-    return '#{:02x}{:02x}{:02x}'.format(r, g, b)
+    return "#{:02x}{:02x}{:02x}".format(r, g, b)
+
 
 # We assume we are getting either RGB or RGBA
 
@@ -101,7 +107,7 @@ def is_clear(color):
     return False
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     doc = """
 ------------------------------------------------------------------
 

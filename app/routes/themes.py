@@ -4,6 +4,7 @@ from app.services import InvalidThemeUpload, ThemeServiceError, get_theme_servic
 
 bp = Blueprint("themes", __name__)
 
+
 @bp.post("/create-theme")
 def create_theme():
     if "file" not in request.files:

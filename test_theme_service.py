@@ -4,7 +4,11 @@ import unittest
 
 from werkzeug.datastructures import FileStorage
 
-from app.services.theme_service import InvalidThemeUpload, ThemeService, ThemeServiceError
+from app.services.theme_service import (
+    InvalidThemeUpload,
+    ThemeService,
+    ThemeServiceError,
+)
 
 
 class ThemeServiceTests(unittest.TestCase):
@@ -46,11 +50,11 @@ class ThemeServiceTests(unittest.TestCase):
             service.generate_theme(self._file(name="sample.bmp"))
 
     def test_generate_theme_wraps_generator_errors(self):
-        def exploding_generator(*_):
+        def exploding_generator(path: str, shuffle: bool):
             raise ValueError("boom")
 
         service = ThemeService(generator=exploding_generator)
 
-        with self.assertRaises(ThemeServiceError):
-            service.generate_theme(self._file(name="sample.png"))
-
+        with self.assertLogs(level="ERROR"):
+            with self.assertRaises(ThemeServiceError):
+                service.generate_theme(self._file(name="sample.png"))
