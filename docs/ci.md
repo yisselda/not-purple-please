@@ -25,9 +25,24 @@ This repository uses a four-stage GitHub Actions workflow defined in `.github/wo
 - **Output:** Uploaded as the `not-purple-please-build` workflow artifact.
 - **Dependencies:** Runs only after quality and security stages pass.
 
+## 5. Deploy Staging (develop branch)
+- **Purpose:** Ship the latest `develop` build to the Railway staging environment once quality gates succeed.
+- **Owner:** DevOps.
+- **Command:** CI executes `railway up --service $RAILWAY_STAGING_SERVICE_ID` using the artifact from the Package stage.
+- **Gate:** Only runs for `push` events on `develop` and requires the GitHub `staging` environment secrets.
+
 ### Local Reproduction
 ```
 pipenv install --dev
 pipenv run ci          # orchestrates lint, tests, audit, packaging
 ```
-`pipenv run ci` executes `scripts/ci.sh`, mirroring the GitHub Actions workflow locally. The final tarball mirrors the CI artifact, enabling DevOps to validate deployment steps outside of GitHub Actions.
+`pipenv run ci` executes `scripts/ci.sh`, mirroring the quality/security stages of the GitHub Actions workflow locally (it stops before deployment). The final tarball mirrors the CI artifact, enabling DevOps to validate deployment steps outside of GitHub Actions.
+
+### Secrets & environment setup
+1. Create a staging environment in Railway and grab the corresponding service ID (`railway service list` or the UI).
+2. Generate a deployment token scoped to that staging environment (`Project Settings → Tokens`).
+3. In GitHub, create an environment named `staging` and add:
+   - `RAILWAY_STAGING_TOKEN` (token from step 2)
+   - `RAILWAY_STAGING_SERVICE_ID`
+4. In Railway, disable automatic deploys for the staging service (Autodeploy → **Manual**) so GitHub Actions is the single deploy trigger, or enable *Wait for CI* if you keep branch-based autodeploys.
+5. Optional: add protected rules/approvals to the GitHub `staging` environment for added safety.

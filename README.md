@@ -53,6 +53,12 @@ $ pipenv run ci
 ```
 Runs linting, unit tests, dependency audit, and produces the same artifact generated in CI (`build/not-purple-please.tar.gz`).
 
+### Deploy to Railway (staging)
+- Create/identify the staging environment and service in Railway, then generate an environment-scoped token.
+- In GitHub, add a **staging** environment with `RAILWAY_STAGING_TOKEN` and `RAILWAY_STAGING_SERVICE_ID` secrets.
+- Pushes to `develop` run the CI workflow; if all jobs succeed, the final stage deploys the packaged build to Railway via `railway up`.
+- Either disable Railway autodeploy for the staging service or enable *Wait for CI* so deploys only occur after GitHub checks pass.
+
 ### Lint and format
 ```
 $ pipenv run lint

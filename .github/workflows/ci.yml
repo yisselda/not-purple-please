@@ -147,3 +147,35 @@ jobs:
         with:
           name: not-purple-please-build
           path: build/not-purple-please.tar.gz
+
+  deploy-staging:
+    name: Deploy Staging
+    runs-on: ubuntu-latest
+    needs: package
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    environment: staging
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download packaged artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: not-purple-please-build
+          path: deploy_artifact
+
+      - name: Unpack artifact
+        run: |
+          tar -xzf deploy_artifact/not-purple-please.tar.gz -C deploy_artifact
+          ls deploy_artifact
+
+      - name: Install Railway CLI
+        run: sudo npm install -g @railway/cli
+
+      - name: Deploy to Railway staging
+        working-directory: deploy_artifact
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_STAGING_TOKEN }}
+          RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_STAGING_SERVICE_ID }}
+        run: railway up --service "$RAILWAY_SERVICE_ID"
