@@ -1,11 +1,10 @@
 import random
 import unittest
 
-import gen_slack_theme as gst
+from app.domain.slack_theme import core as gst
 
 
-class TestGenSlackTheme(unittest.TestCase):
-
+class TestSlackThemeCore(unittest.TestCase):
     def color_intensity(self):
         return random.randint(1, 256)
 
@@ -21,9 +20,6 @@ class TestGenSlackTheme(unittest.TestCase):
             self.color_intensity(),
             a,
         )
-
-    def test_upper(self):
-        self.assertEqual(True, True)
 
     def test_theme_to_string(self):
         result = gst.theme_to_string(["#fff", "#eee", "#000"])
@@ -47,17 +43,14 @@ class TestGenSlackTheme(unittest.TestCase):
         result = gst.retrieve_elligible_colors(pixels_count_color, 99)
         self.assertEqual(result, [pixel2])
 
-    def test_is_clear_returns_false_with_RGB(self):
-        clear_color = self.rgb_stub()
-        self.assertFalse(gst.is_clear(clear_color))
+    def test_is_clear_returns_false_with_rgb(self):
+        self.assertFalse(gst.is_clear(self.rgb_stub()))
 
-    def test_is_clear_returns_false_with_RGBA(self):
-        clear_color = self.rgba_stub(a=1)
-        self.assertFalse(gst.is_clear(clear_color))
+    def test_is_clear_returns_false_with_rgba(self):
+        self.assertFalse(gst.is_clear(self.rgba_stub(a=1)))
 
     def test_is_clear_returns_true(self):
-        clear_color = self.rgba_stub(a=0)
-        self.assertTrue(gst.is_clear(clear_color))
+        self.assertTrue(gst.is_clear(self.rgba_stub(a=0)))
 
     def test_to_rgb_with_rgb(self):
         rgb_color = self.rgb_stub()
@@ -97,31 +90,8 @@ class TestGenSlackTheme(unittest.TestCase):
         self.assertEqual(result, expected)
 
     def test_complete_colors_enough_colors_already(self):
-        pixel0 = self.rgb_stub()
-        pixel1 = self.rgb_stub()
-        pixel2 = self.rgb_stub()
-        pixel3 = self.rgb_stub()
-        pixel4 = self.rgb_stub()
-        pixel5 = self.rgb_stub()
-        pixel6 = self.rgb_stub()
-        pixel7 = self.rgb_stub()
-        pixel8 = self.rgb_stub()
-        pixel9 = self.rgb_stub()
-        rgb_colors = [
-            pixel0,
-            pixel1,
-            pixel2,
-            pixel3,
-            pixel4,
-            pixel5,
-            pixel6,
-            pixel7,
-            pixel8,
-            pixel9,
-        ]
-
-        result = gst.complete_colors(rgb_colors)
-        self.assertEqual(result, rgb_colors)
+        rgb_colors = [self.rgb_stub() for _ in range(10)]
+        self.assertEqual(gst.complete_colors(rgb_colors.copy()), rgb_colors)
 
     def test_get_theme_more_than_picks(self):
         sut = list(range(0, 100))
@@ -165,3 +135,6 @@ class TestGenSlackTheme(unittest.TestCase):
             "#ebebeb,#eceaeb,#ebe9eb,#e6e7eb,#edecea"
         )
         self.assertEqual(result, expected)
+
+    def test_rgb2hex_formats_expected_string(self):
+        self.assertEqual(gst.rgb2hex(26, 43, 60), "#1a2b3c")

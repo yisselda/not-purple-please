@@ -31,6 +31,17 @@ $ export FLASK_APP=controller.py
 $ pipenv run flask run
 ```
 
+### Verify the server
+With the development server running (defaults to `http://127.0.0.1:5000`), you can hit the request-level endpoints directly:
+```
+$ curl http://127.0.0.1:5000/health
+{"status":"ok"}
+
+$ curl -F "file=@static/wiki-logo.png" http://127.0.0.1:5000/v1/themes/create-theme
+{"theme":"#xxxxxx,#yyyyyy,..."}
+```
+The second command uses the sample wiki logo in `static/wiki-logo.png` to exercise the theme creation route; your color string will vary based on the generator output.
+
 ### Run the tests
 ```
 $ pipenv run python -m unittest

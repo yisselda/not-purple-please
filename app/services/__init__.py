@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from flask import current_app
 
-from gen_slack_theme import generate_slack_theme
+from app.domain.slack_theme import generate_slack_theme
 
 from .theme_service import InvalidThemeUpload, ThemeService, ThemeServiceError
 
