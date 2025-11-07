@@ -59,8 +59,11 @@ Runs linting, unit tests, dependency audit, and produces the same artifact gener
   - `RAILWAY_STAGING_TOKEN` (also available to the CLI as `RAILWAY_TOKEN`)
   - `RAILWAY_STAGING_SERVICE_ID`
   - `RAILWAY_STAGING_ENVIRONMENT` (for example `staging`)
+  - `RAILWAY_STAGING_DOMAIN` (for example `web-staging-a9d7.up.railway.app`)
 - Pushes to `develop` run the CI workflow; if all jobs succeed, the final stage deploys the packaged build to Railway via `railway up`.
 - Either disable Railway autodeploy for the staging service or enable *Wait for CI* so deploys only occur after GitHub checks pass.
+- Smoke tests run automatically after deployment, curling `/health` and `/v1/themes/create-theme` against the staging domain using `static/wiki-logo.png`.
+- After deployment, fetch the staging URL from Railway (`railway status --json` → `.services.edges[].node.serviceInstances.edges[].node.domains`) or run `railway open --service web --environment staging`. Use it to hit `/health` or POST `/v1/themes/create-theme` with `static/wiki-logo.png` to confirm the release.
 
 ### Lint and format
 ```

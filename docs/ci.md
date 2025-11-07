@@ -31,6 +31,12 @@ This repository uses a four-stage GitHub Actions workflow defined in `.github/wo
 - **Command:** CI executes `railway up --service $RAILWAY_STAGING_SERVICE_ID` using the artifact from the Package stage.
 - **Gate:** Only runs for `push` events on `develop` and requires the GitHub `staging` environment secrets.
 
+## 6. Smoke Tests
+- **Purpose:** Confirm the deployed staging environment serves `/health` and can generate a theme from the sample wiki logo.
+- **Owner:** Application Engineering / QA.
+- **Command:** `curl --fail .../health` and `curl --fail .../v1/themes/create-theme`, asserting JSON payloads with `jq`.
+- **Gate:** Runs only after a successful staging deploy and requires the public staging domain secret.
+
 ### Local Reproduction
 ```
 pipenv install --dev
@@ -46,6 +52,7 @@ pipenv run ci          # orchestrates lint, tests, audit, packaging
    - `RAILWAY_STAGING_TOKEN` (token from step 2)
    - `RAILWAY_STAGING_SERVICE_ID`
    - `RAILWAY_STAGING_ENVIRONMENT` (string literal `staging`)
+   - `RAILWAY_STAGING_DOMAIN` (public domain such as `web-staging-xyz.up.railway.app`)
 5. Ensure `RAILWAY_STAGING_TOKEN` is also available to the CLI as `RAILWAY_TOKEN` (GitHub secret alias or duplication works).
 6. In Railway, disable automatic deploys for the staging service (Autodeploy → **Manual**) so GitHub Actions is the single deploy trigger, or enable *Wait for CI* if you keep branch-based autodeploys.
 7. Optional: add protected rules/approvals to the GitHub `staging` environment for added safety.

@@ -180,3 +180,29 @@ jobs:
           RAILWAY_ENVIRONMENT: ${{ secrets.RAILWAY_STAGING_ENVIRONMENT }}
           RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_STAGING_SERVICE_ID }}
         run: railway up --service "$RAILWAY_SERVICE_ID" --environment "$RAILWAY_ENVIRONMENT" --ci
+
+  smoke-tests:
+    name: Smoke Tests
+    runs-on: ubuntu-latest
+    needs: deploy-staging
+    if: needs.deploy-staging.result == 'success'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify health endpoint
+        shell: bash
+        env:
+          STAGING_BASE_URL: https://${{ secrets.RAILWAY_STAGING_DOMAIN }}
+        run: |
+          curl --fail --retry 5 --retry-delay 2 "$STAGING_BASE_URL/health" | jq -e '.status == "ok"' >/dev/null
+
+      - name: Verify theme creation endpoint
+        shell: bash
+        env:
+          STAGING_BASE_URL: https://${{ secrets.RAILWAY_STAGING_DOMAIN }}
+        run: |
+          RESPONSE=$(curl --fail --retry 5 --retry-delay 2 -s -F "file=@static/wiki-logo.png" "$STAGING_BASE_URL/v1/themes/create-theme")
+          echo "$RESPONSE" | jq -e '.theme' >/dev/null
+          echo "Theme response: $RESPONSE"
