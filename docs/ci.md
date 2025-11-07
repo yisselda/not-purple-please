@@ -55,10 +55,10 @@ pipenv run ci          # orchestrates lint, tests, audit, packaging
 2. Generate a deployment token scoped to that staging environment (`Project Settings → Tokens`).
 3. Note the environment name/ID (e.g. `staging`).
 4. In GitHub, create an environment named `staging` and add:
-   - `RAILWAY_STAGING_TOKEN` (token from step 2)
+   - `RAILWAY_TOKEN` (token from step 2)
    - `RAILWAY_STAGING_SERVICE_ID`
    - `RAILWAY_STAGING_ENVIRONMENT` (string literal `staging`)
    - `RAILWAY_STAGING_DOMAIN` (public domain such as `web-staging-xyz.up.railway.app`)
-5. Ensure `RAILWAY_STAGING_TOKEN` is also available to the CLI as `RAILWAY_TOKEN` (GitHub secret alias or duplication works).
+5. Commit `.railway/config.json` (generated via `railway link`) so CI can resolve the project/service IDs.
 6. In Railway, disable automatic deploys for the staging service (Autodeploy → **Manual**) so GitHub Actions is the single deploy trigger, or enable *Wait for CI* if you keep branch-based autodeploys.
 7. Optional: add protected rules/approvals to the GitHub `staging` environment for added safety.
