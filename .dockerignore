@@ -1,0 +1,17 @@
+.git
+.github
+.venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.sqlite3
+.mypy_cache
+.pytest_cache
+node_modules
+build
+pipenv.lock
+Pipfile.lock
+env/
+.env

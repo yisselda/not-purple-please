@@ -19,19 +19,25 @@ This repository uses a four-stage GitHub Actions workflow defined in `.github/wo
 - **Owner:** DevOps / Security Engineering.
 - **Notes:** Use `pipenv update <package>` (and update the lockfile) when remediation is required.
 
-## 4. Package Artifact
+## 4. Docker Build
+- **Purpose:** Ensure the production Docker image builds cleanly before packaging or deployment.
+- **Owner:** DevOps / Application Engineering.
+- **Command:** `docker build -t not-purple-please:${GITHUB_SHA} .`
+- **Notes:** Fails fast if the Dockerfile or runtime deps are broken.
+
+## 5. Package Artifact
 - **Purpose:** Produce a deployment-ready tarball containing application code and configuration for downstream environments.
 - **Owner:** DevOps.
 - **Output:** Uploaded as the `not-purple-please-build` workflow artifact.
 - **Dependencies:** Runs only after quality and security stages pass.
 
-## 5. Deploy Staging (develop branch)
+## 6. Deploy Staging (develop branch)
 - **Purpose:** Ship the latest `develop` build to the Railway staging environment once quality gates succeed.
 - **Owner:** DevOps.
 - **Command:** CI executes `railway up --service $RAILWAY_STAGING_SERVICE_ID` using the artifact from the Package stage.
 - **Gate:** Only runs for `push` events on `develop` and requires the GitHub `staging` environment secrets.
 
-## 6. Smoke Tests
+## 7. Smoke Tests
 - **Purpose:** Confirm the deployed staging environment serves `/health` and can generate a theme from the sample wiki logo.
 - **Owner:** Application Engineering / QA.
 - **Command:** `curl --fail .../health` and `curl --fail .../v1/themes/create-theme`, asserting JSON payloads with `jq`.

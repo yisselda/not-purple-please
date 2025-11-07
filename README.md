@@ -53,6 +53,21 @@ $ pipenv run ci
 ```
 Runs linting, unit tests, dependency audit, and produces the same artifact generated in CI (`build/not-purple-please.tar.gz`).
 
+### Run with Docker
+- Build the image locally:
+  ```
+  docker build -t not-purple-please:local .
+  ```
+- Start a hot-reload dev server:
+  ```
+  docker compose up --build
+  ```
+  Visit `http://localhost:8080/health` to confirm it is running.
+- Run the unit tests inside the containerized environment:
+  ```
+  docker compose run --rm web python -m unittest
+  ```
+
 ### Deploy to Railway (staging)
 - Create/identify the staging environment and service in Railway, then generate an environment-scoped token.
 - In GitHub, add a **staging** environment with secrets:
