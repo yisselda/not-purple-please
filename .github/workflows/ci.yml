@@ -187,10 +187,15 @@ jobs:
       - name: Install Railway CLI
         run: sudo npm install -g @railway/cli
 
-      - name: Deploy to Railway staging
+      - name: Authenticate Railway CLI
         working-directory: deploy_artifact
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: railway login --token "$RAILWAY_TOKEN"
+
+      - name: Deploy to Railway staging
+        working-directory: deploy_artifact
+        env:
           RAILWAY_ENVIRONMENT: ${{ secrets.RAILWAY_STAGING_ENVIRONMENT }}
           RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_STAGING_SERVICE_ID }}
         run: railway up --service "$RAILWAY_SERVICE_ID" --environment "$RAILWAY_ENVIRONMENT" --ci
